@@ -1,0 +1,39 @@
+name: Bump Version
+
+on:
+  workflow_dispatch:
+    inputs:
+      release-version-string:
+        type: string
+        required: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      
+      - name: Bump version
+        id: tag_version
+        uses: mathieudutour/github-tag-action@v6.0
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          custom_tag: ${{ github.event.inputs.release-version-string }}
+          tag_prefix: ""
+
+      - name: Archive Release
+        uses: thedoctor0/zip-release@main
+        with:
+          type: "zip"
+          filename: "spacekit.zip"
+          path: "."
+          directory: "spacekit"
+
+      - name: Upload Release
+        uses: ncipollo/release-action@v1
+        with:
+          artifacts: "spacekit/spacekit.zip"
+          tag: ${{ steps.tag_version.outputs.new_tag }}
+          omitBody: true
+          name: ${{ steps.tag_version.outputs.new_tag }}
+          token: ${{ secrets.GITHUB_TOKEN }}
