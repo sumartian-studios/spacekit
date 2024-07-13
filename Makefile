@@ -4,5 +4,5 @@
 # terms of the GNU General Public License v3.0.
 
 symlink:
-	mkdir -p ~/.config/blender/3.1/scripts/addons/
-	ln -r -s spacekit/ ~/.config/blender/3.1/scripts/addons/
+	mkdir -p ~/.config/blender/4.1/scripts/addons/
+	ln -r -s spacekit/ ~/.config/blender/4.1/scripts/addons/
